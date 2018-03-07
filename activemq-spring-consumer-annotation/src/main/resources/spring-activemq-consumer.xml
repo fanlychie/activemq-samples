@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/jms
+    http://www.springframework.org/schema/jms/spring-jms.xsd">
+
+    <!-- 连接工厂 -->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${brokerURL}"/>
+    </bean>
+
+    <!-- 连接池工厂 -->
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="connectionFactory" ref="activeMQConnectionFactory"/>
+        <property name="maxConnections" value="100"/>
+        <property name="maximumActiveSessionPerConnection" value="300"/>
+        <property name="idleTimeout" value="180000"/>
+    </bean>
+
+    <!-- 消息监听容器工厂 -->
+    <bean id="jmsListenerContainerFactory" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+    </bean>
+
+    <!-- 开启JMS注解 -->
+    <jms:annotation-driven container-factory="jmsListenerContainerFactory"/>
+
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 连接工厂 -->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${brokerURL}"/>
+    </bean>
+
+    <!-- 连接池工厂 -->
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="connectionFactory" ref="activeMQConnectionFactory"/>
+        <property name="maxConnections" value="100"/>
+        <property name="maximumActiveSessionPerConnection" value="300"/>
+        <property name="idleTimeout" value="180000"/>
+    </bean>
+
+    <!-- 消息队列 -->
+    <bean id="mqQueue1" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="TEST.QUEUE1"/>
+    </bean>
+    <bean id="mqQueue2" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="TEST.QUEUE2" />
+    </bean>
+
+    <!-- 消息队列监听器 -->
+    <bean id="mqQueue1MessageConsumerListener" class="org.fanlychie.mq.MqQueue1MessageConsumerListener"/>
+    <bean id="mqQueue2MessageConsumerListener" class="org.fanlychie.mq.MqQueue2MessageConsumerListener"/>
+
+    <!-- 消息监听容器 -->
+    <bean id="mqQueue1MessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+        <property name="destination" ref="mqQueue1"/>
+        <property name="messageListener" ref="mqQueue1MessageConsumerListener"/>
+    </bean>
+    <bean id="mqQueue2MessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+        <property name="destination" ref="mqQueue2"/>
+        <property name="messageListener" ref="mqQueue2MessageConsumerListener"/>
+    </bean>
+
+</beans>

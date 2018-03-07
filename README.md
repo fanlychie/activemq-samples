@@ -1,2 +1,2 @@
-# activemq-samples
-Apache ActiveMQ Samples
+# ActiveMQ 示例项目
+

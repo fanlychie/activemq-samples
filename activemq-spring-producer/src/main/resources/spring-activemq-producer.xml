@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 连接工厂 -->
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${brokerURL}"/>
+    </bean>
+
+    <!-- 连接池工厂 -->
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="connectionFactory" ref="activeMQConnectionFactory"/>
+        <property name="maxConnections" value="100"/>
+        <property name="maximumActiveSessionPerConnection" value="300"/>
+        <property name="idleTimeout" value="180000"/>
+    </bean>
+
+    <!-- 消息模板 -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+    </bean>
+
+    <!-- 消息队列 -->
+    <bean id="mqQueue1" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="TEST.QUEUE1" />
+    </bean>
+    <bean id="mqQueue2" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="TEST.QUEUE2" />
+    </bean>
+
+</beans>
