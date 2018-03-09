@@ -6,7 +6,7 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 /**
- * Created by FanZhongYun on 2018/3/7.
+ * Created by Fanlychie on 2018/3/7.
  */
 public class MqQueue2MessageConsumerListener implements MessageListener {
 

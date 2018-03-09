@@ -8,11 +8,10 @@ import javax.jms.Destination;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 消费者
- * Created by FanZhongYun on 2018/3/5.
+ * Created by Fanlychie on 2018/3/5.
  */
 public class Consumer {
 
@@ -32,8 +31,6 @@ public class Consumer {
         while (true) {
             // 接收消息
             TextMessage message = (TextMessage) consumer.receive();
-            // 模拟业务处理
-            TimeUnit.SECONDS.sleep(2);
             // 打印接收到的消息
             System.out.println(String.format("[接收消息]: %s", message.getText()));
         }

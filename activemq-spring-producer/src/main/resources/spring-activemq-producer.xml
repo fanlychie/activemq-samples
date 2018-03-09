@@ -6,15 +6,15 @@
 
     <!-- 连接工厂 -->
     <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="${brokerURL}"/>
+        <property name="brokerURL" value="${mq.brokerURL}"/>
     </bean>
 
     <!-- 连接池工厂 -->
     <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
         <property name="connectionFactory" ref="activeMQConnectionFactory"/>
-        <property name="maxConnections" value="100"/>
-        <property name="maximumActiveSessionPerConnection" value="300"/>
-        <property name="idleTimeout" value="180000"/>
+        <property name="maxConnections" value="${mq.maxConnections}"/>
+        <property name="maximumActiveSessionPerConnection" value="${mq.maximumActiveSessionPerConnection}"/>
+        <property name="idleTimeout" value="${mq.idleTimeout}"/>
     </bean>
 
     <!-- 消息模板 -->

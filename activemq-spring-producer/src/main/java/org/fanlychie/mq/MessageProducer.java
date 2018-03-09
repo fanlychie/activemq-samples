@@ -12,7 +12,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 
 /**
- * Created by FanZhongYun on 2018/3/6.
+ * Created by Fanlychie on 2018/3/6.
  */
 @Component
 public class MessageProducer {

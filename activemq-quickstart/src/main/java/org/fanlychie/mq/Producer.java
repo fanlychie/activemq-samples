@@ -29,15 +29,12 @@ public class Producer {
         Destination destination = session.createQueue("TEST.QUEUE");
         // 消息生产者
         MessageProducer producer = session.createProducer(destination);
-        // 非持久化, MQ 重启后消息会丢失, 视场景而定
-        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-        // 发送 20 条消息
-        for (int i = 0; i < 20; i++) {
-            // 文本内容消息
-            TextMessage message = session.createTextMessage(String.format("第 %d 条消息", i + 1));
-            // 发送到目的地
-            producer.send(message);
-        }
+        // 持久化（MQ重启后消息不会丢失）
+        producer.setDeliveryMode(DeliveryMode.PERSISTENT);
+        // 文本内容消息
+        TextMessage message = session.createTextMessage("=== Hello ActiveMQ ===");
+        // 发送到目的地
+        producer.send(message);
         // 提交事务
         session.commit();
         // 关闭连接
