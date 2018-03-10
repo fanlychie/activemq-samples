@@ -8,13 +8,15 @@
     <name>activemq-quickstart</name>
     <url>http://maven.apache.org</url>
     <properties>
+        <activemq.version>5.15.2</activemq.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
+        <!-- MQ依赖 -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-all</artifactId>
-            <version>5.15.2</version>
+            <artifactId>activemq-broker</artifactId>
+            <version>${activemq.version}</version>
         </dependency>
     </dependencies>
 </project>
